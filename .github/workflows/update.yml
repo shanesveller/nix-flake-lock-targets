@@ -1,0 +1,25 @@
+name: update-flake-lock
+on:
+  workflow_dispatch:
+  schedule:
+    # weekly on Sunday at 2:05am UTC-5
+    - cron: '5 7 * * 0'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.5.3
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v4
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@v19
+        with:
+          pr-assignees: 'shanesveller'
+          pr-reviewers: 'shanesveller'
+          pr-title: "chore: Update flake.lock"
